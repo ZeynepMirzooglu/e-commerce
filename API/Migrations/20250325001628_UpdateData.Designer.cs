@@ -2,6 +2,7 @@
 using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250325001628_UpdateData")]
+    partial class UpdateData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.0");
@@ -50,7 +53,7 @@ namespace API.Migrations
                         {
                             Id = 1,
                             Description = "Samsung s25 Galaxy",
-                            ImageUrl = "s25.jpg",
+                            ImageUrl = "wwwroot/images/s25.jpg",
                             IsActive = true,
                             Name = "Samsung S25",
                             Price = 98000m,
@@ -60,7 +63,7 @@ namespace API.Migrations
                         {
                             Id = 2,
                             Description = "Samsung s24 Galaxy",
-                            ImageUrl = "s24.jpg",
+                            ImageUrl = "wwwroot/images/s24.jpg",
                             IsActive = true,
                             Name = "Samsung S24",
                             Price = 80000m,
@@ -70,7 +73,7 @@ namespace API.Migrations
                         {
                             Id = 3,
                             Description = "Samsung s23 Galaxy",
-                            ImageUrl = "s23.jpg",
+                            ImageUrl = "wwwroot/images/s23.jpg",
                             IsActive = true,
                             Name = "Samsung S23",
                             Price = 70000m,
@@ -80,7 +83,7 @@ namespace API.Migrations
                         {
                             Id = 4,
                             Description = "Samsung s22 Galaxy",
-                            ImageUrl = "s22.jpg",
+                            ImageUrl = "wwwroot/images/s22.jpg",
                             IsActive = true,
                             Name = "Samsung S22",
                             Price = 60000m,
@@ -90,7 +93,7 @@ namespace API.Migrations
                         {
                             Id = 5,
                             Description = "Samsung s21 Galaxy",
-                            ImageUrl = "s21.jpg",
+                            ImageUrl = "wwwroot/images/s21.jpg",
                             IsActive = true,
                             Name = "Samsung S21",
                             Price = 50000m,
