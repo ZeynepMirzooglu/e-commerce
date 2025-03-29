@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { IProduct } from "../../model/IProduct";
 import requests from "../../api/request";
+import NotFound from "../../errors/NotFound";
 
 
 export default function ProductDetailsPage() {
@@ -23,7 +24,7 @@ export default function ProductDetailsPage() {
       return <CircularProgress/>
    }
    if(!product){
-      return <Typography variant="h5">Product not found</Typography>
+      return <NotFound/>
    }
    return (
       <Grid2 container spacing={2}>
