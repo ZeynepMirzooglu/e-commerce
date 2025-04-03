@@ -1,6 +1,7 @@
 import { ShoppingCart } from "@mui/icons-material";
 import { AppBar, Badge, Box, Button, IconButton,Stack,Toolbar, Typography } from "@mui/material";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
+import { useAppSelector } from "../hooks/hooks";
 
 const links=[
   {title:"Home", path:"/"},
@@ -21,16 +22,16 @@ const navStyles={
     color:"primary.light"}
 }
 export function Header(){
+
+  const {cart} = useAppSelector(state=>state.cart)
+  //const {cart}=useCartContext();
+  const count = cart?.cartItems.reduce((total,item)=>total+item.quantity,0);
+  
     return (
     <AppBar position="static" sx={{mb:4}}>
       <Toolbar sx={{display:"flex", justifyContent:"space-between"}}>
         <Box sx={{display:"flex", alignItems:"center"}}>
         <Typography variant="h6" >E-Commerce</Typography>
-      {/* <List sx={{display:"flex"}}>
-        {links.map((link)=>(
-          <ListItem  component={NavLink} to={link.path} sx={navStyles}>{link.title}</ListItem>
-        ))}
-      </List> */}
       <Stack direction="row" spacing={3}>
         {links.map((link)=>(
           <Button component={NavLink} to={link.path} sx={navStyles}>{link.title}</Button>
@@ -39,8 +40,8 @@ export function Header(){
       </Stack>
       </Box>
       <Box >
-        <IconButton size="large" edge="start" color="inherit">
-          <Badge badgeContent="2" color="secondary"> <ShoppingCart/></Badge>
+        <IconButton size="large" edge="start" color="inherit" component={Link} to="/cart">
+          <Badge badgeContent={count} color="secondary"> <ShoppingCart/></Badge>
         </IconButton>
       </Box>
       

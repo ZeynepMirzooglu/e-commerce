@@ -1,13 +1,14 @@
 import { createBrowserRouter, Navigate } from "react-router";
 import App from "../components/App";
-import HomePage from "../pages/HomePage";
-import AboutPage from "../pages/AboutPage";
-import ContactPage from "../pages/ContactPage";
-import CatalogPage from "../pages/catalog/CatalogPage";
-import ProductDetailsPage from "../pages/catalog/ProductDetailsPage";
-import ErrorPage from "../pages/ErrorPage";
 import ServerError from "../errors/ServerError";
 import NotFound from "../errors/NotFound";
+import HomePage from "../features/HomePage";
+import AboutPage from "../features/AboutPage";
+import { ContactPage } from "@mui/icons-material";
+import CatalogPage from "../features/catalog/CatalogPage";
+import ShoppingCardPage from "../features/cart/ShoppingCardPage";
+import ProductDetailsPage from "../features/catalog/ProductDetailsPage";
+import ErrorPage from "../features/ErrorPage";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -18,6 +19,7 @@ export const router = createBrowserRouter([
             {path:"contact",element:<ContactPage/>},
             {path:"catalog",element:<CatalogPage/>}, 
             {path:"catalog/:id",element:<ProductDetailsPage/>},
+            {path:"cart",element:<ShoppingCardPage/>},
             {path:"error",element:<ErrorPage/>},
             {path:"server-error",element:<ServerError/>},
             {path:"not-found",element:<NotFound/>},
