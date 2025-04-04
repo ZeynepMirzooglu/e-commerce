@@ -3,33 +3,15 @@ import { Delete } from "@mui/icons-material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import LoadingButton from '@mui/lab/LoadingButton';
-import { useState } from "react";
-import requests from "../../api/request";
 import { toast } from "react-toastify";
 import CartSummary from "./CartSummary";
 import { currencyTRY } from "../../utils/formatCurrency";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { setCart } from "./cartSlice";
+import { addItemToCart, deleteItemToCart } from "./cartSlice";
 export default function ShoppingCardPage() {
 
-    const [status,setStatus] =useState({loading:false,id:""});
-    const {cart}= useAppSelector(state=>state.cart);
+    const {cart,status}= useAppSelector(state=>state.cart);
     const dispatch = useAppDispatch();
-
-    function handleAddItem(productId:number,id:string){
-        setStatus({loading:true,id:id});
-        requests.Cart.addItem(productId)
-        .then(cart=>dispatch(setCart(cart)))
-        .catch(error=>console.log(error))
-        .finally(()=>setStatus({loading:false,id:""}));
-    }
-    function handleDeleteItem(productId:number,id:string,quantity=1){
-        setStatus({loading:true,id:id});
-        requests.Cart.removeItem(productId,quantity)
-        .then((cart)=>dispatch(setCart(cart)))
-        .catch(error=>console.log(error))
-        .finally(()=>setStatus({loading:false,id:""}));
-    }
     
     if(cart?.cartItems.length === 0) return <Alert severity="warning">Sepetinizde Ürün Bulunmamaktadır!</Alert>
 
@@ -61,22 +43,22 @@ export default function ShoppingCardPage() {
                     <TableCell align="right">{currencyTRY.format(row.price)}</TableCell>
                     <TableCell align="right">
                     <LoadingButton 
-                    loading={status.loading && status.id === "add"+row.productId} 
-                    onClick={()=>handleAddItem(row.productId,"add"+row.productId)}>
+                    loading={status == "pendingAddItem"+row.productId} 
+                    onClick={()=>dispatch(addItemToCart({productId:row.productId}))}>
                     <AddCircleOutlineIcon/>
                     </LoadingButton>
                         {row.quantity}
                     <LoadingButton 
-                    loading={status.loading && status.id === "del"+row.productId} 
-                    onClick={()=>handleDeleteItem(row.productId,"del"+row.productId,1)}>
+                    loading={status == "pendingDeleteItem"+row.productId} 
+                    onClick={()=>dispatch(deleteItemToCart({productId:row.productId,quantity:1,key:"one"}))}>
                     <RemoveCircleOutlineIcon/></LoadingButton>
                     </TableCell>
                     <TableCell align="right">{currencyTRY.format(row.price * row.quantity)}</TableCell>
                     <TableCell align="right">
                     <LoadingButton color="error" 
-                    loading={status.loading && status.id === "delete"+row.productId} 
+                    loading={status == "pendingDeleteItem"+row.productId} 
                     onClick={()=>{
-                        handleDeleteItem(row.productId,"delete"+row.productId,row.quantity)
+                        dispatch(deleteItemToCart({productId:row.productId,quantity:row.quantity,key:"all"}))
                         toast.error("Ürün Sepetten Çıkarıldı!")}}>
                         <Delete/>
                         </LoadingButton>

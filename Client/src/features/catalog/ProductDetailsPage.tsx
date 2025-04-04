@@ -1,46 +1,28 @@
 import { CircularProgress, Divider, Grid2, Stack, Table, TableBody, TableCell, TableContainer, TableRow, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router";
-import { IProduct } from "../../model/IProduct";
-import requests from "../../api/request";
 import NotFound from "../../errors/NotFound";
 import LoadingButton from '@mui/lab/LoadingButton';
 import { AddShoppingCart } from "@mui/icons-material";
-import { toast } from "react-toastify";
 import { currencyTRY } from "../../utils/formatCurrency";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
-import { setCart } from "../cart/cartSlice";
+import { addItemToCart } from "../cart/cartSlice";
+import { fetchProductById, selectProductById } from "./catalogSlice";
 
 export default function ProductDetailsPage() {
-   //const {id} =useParams<{id:string}>();
-   const {id} =useParams();
-   const {cart}=useAppSelector(state=>state.cart);
+   const {id} =useParams<{id:string}>();
+   const {cart,status}=useAppSelector(state=>state.cart);
    const dispatch = useAppDispatch();
-   const [product,setProduct]=useState<IProduct | null>(null);
-   const [loading,setLoading]=useState<boolean>(true);
-   const [isAdded,setIsAdded]=useState<boolean>(false);
+   const product= useAppSelector(state=>selectProductById(state,Number(id)));
+   const {status:loading} =useAppSelector(state=>state.catalog);
+
 
    const item = cart?.cartItems.find(item=>item.productId === product?.id);
-
-   function handleAddItem(productId:number){
-      setIsAdded(true);
-      requests.Cart.addItem(productId)
-      .then(cart=>{
-         dispatch(setCart(cart));
-         toast.success("Ürün sepete eklendi");
-      })
-      .catch(error=>console.log(error))
-      .finally(()=>setIsAdded(false));
-   }
-
    useEffect(()=>{
-     //id && requests.Catalog.details(parseInt(id))
-      requests.Catalog.details(Number(id))
-      .then((data)=>setProduct(data))
-      .catch((error)=>console.log(error))
-      .finally(()=>setLoading(false))
+      if(!product && id) dispatch(fetchProductById(Number(id)))
    },[id]);
-   if(loading){
+   
+   if(loading =="pendingFetchProductById"){
       return <CircularProgress/>
    }
    if(!product){
@@ -77,8 +59,8 @@ export default function ProductDetailsPage() {
                <LoadingButton 
                variant="outlined" 
                loadingPosition="start" startIcon={<AddShoppingCart/>}
-               loading={isAdded}
-               onClick={()=>handleAddItem(product.id)}>
+               loading={status =="pendingAddItem" + product.id}
+               onClick={()=> dispatch(addItemToCart({productId:product.id}))}>
                Add to cart
                </LoadingButton>
                { 
@@ -89,5 +71,5 @@ export default function ProductDetailsPage() {
             </Stack>
          </Grid2>
       </Grid2>
-    )
- }
+   )
+}
