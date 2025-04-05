@@ -1,13 +1,13 @@
 using API.Entity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class DataContext(DbContextOptions<DataContext> options) : DbContext(options)
+public class DataContext(DbContextOptions<DataContext> options) : IdentityDbContext<AppUser,AppRole,string>(options)
 {
     public DbSet<Product> Products => Set<Product>();
     public DbSet<Cart> Carts => Set<Cart>();
-  
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
