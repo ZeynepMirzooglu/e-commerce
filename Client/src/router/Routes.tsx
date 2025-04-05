@@ -9,6 +9,8 @@ import CatalogPage from "../features/catalog/CatalogPage";
 import ShoppingCardPage from "../features/cart/ShoppingCardPage";
 import ProductDetailsPage from "../features/catalog/ProductDetailsPage";
 import ErrorPage from "../features/ErrorPage";
+import LoginPage from "../features/account/LoginPage";
+import RegisterPage from "../features/account/RegisterPage";
 export const router = createBrowserRouter([
     {
         path: "/",
@@ -19,6 +21,8 @@ export const router = createBrowserRouter([
             {path:"contact",element:<ContactPage/>},
             {path:"catalog",element:<CatalogPage/>}, 
             {path:"catalog/:id",element:<ProductDetailsPage/>},
+            {path:"login",element:<LoginPage/>},
+            {path:"register",element:<RegisterPage/>},
             {path:"cart",element:<ShoppingCardPage/>},
             {path:"error",element:<ErrorPage/>},
             {path:"server-error",element:<ServerError/>},

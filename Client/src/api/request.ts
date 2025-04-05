@@ -69,10 +69,19 @@ const Cart={
     removeItem:(productId:number,quantity=1)=>queries.delete(`cart?productId=${productId}&quantity=${quantity}`),
     clearCart:()=>queries.delete("cart"),
 }
+
+const Account={
+    login:(formData:any)=>queries.post("account/login",formData),
+    register:(formData:any)=>queries.post("account/register",formData),
+    currentUser:()=>queries.get("account"),
+    logout:()=>queries.post("account/logout",{})
+}
+
 const requests ={
     Catalog,
     Errors,
-    Cart
+    Cart,
+    Account,
 }
 
 export default requests;

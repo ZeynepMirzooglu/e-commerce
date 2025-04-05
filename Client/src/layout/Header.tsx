@@ -10,7 +10,10 @@ const links=[
   {title:"About", path:"/about"},
   {title:"Error", path:"/error"}, 
 ]
-
+const authLinks =[
+  {title:"Login", path:"/login"},
+  {title:"Register", path:"/register"},
+]
 
 const navStyles={
   color:"inherit",
@@ -39,10 +42,16 @@ export function Header(){
         }
       </Stack>
       </Box>
-      <Box >
+      <Box sx={{display:"flex", alignItems:"center"}}>
         <IconButton size="large" edge="start" color="inherit" component={Link} to="/cart">
           <Badge badgeContent={count} color="secondary"> <ShoppingCart/></Badge>
         </IconButton>
+        <Stack direction="row">
+        {authLinks.map((link)=>(
+          <Button component={NavLink} to={link.path} sx={navStyles}>{link.title}</Button>
+        ))
+        }
+      </Stack>
       </Box>
       
       </Toolbar>
