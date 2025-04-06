@@ -25,6 +25,8 @@ const initializeState = productsAdapter.getInitialState({
     status: 'idle' ,
     isLoaded: false,    
 })
+
+
 export const catalogSlice = createSlice({
 name: 'catalog',
 initialState: initializeState,
@@ -52,6 +54,7 @@ extraReducers:(builder) => {
     builder.addCase(fetchProductById.rejected,(state)=>{
         state.status = 'idle';
     })
+
 }
 })
 

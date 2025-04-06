@@ -6,8 +6,8 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import { toast } from "react-toastify";
 import CartSummary from "./CartSummary";
 import { currencyTRY } from "../../utils/formatCurrency";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { addItemToCart, deleteItemToCart } from "./cartSlice";
+import { useAppDispatch, useAppSelector } from "../../store/store";
 export default function ShoppingCardPage() {
 
     const {cart,status}= useAppSelector(state=>state.cart);

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { fetchProducts, selectProducts} from "./catalogSlice";
 import { ProductList } from "./ProductList";
 import { CircularProgress } from "@mui/material";
+import { useAppSelector, useAppDispatch } from "../../store/store";
 
 
 

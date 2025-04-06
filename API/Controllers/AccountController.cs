@@ -1,6 +1,7 @@
 using API.DTO;
 using API.Entity;
 using API.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,12 +19,14 @@ public class AccountController : ControllerBase
     }
  
     [HttpPost("login")]
-    public async Task<ActionResult<AppUser>> Login(LoginDTO model)
+    public async Task<ActionResult<UserDTO>> Login(LoginDTO model)
     {
         var user= await _userManager.FindByNameAsync(model.UserName);
-        if(user==null) return BadRequest("User not found");
+        if(user==null) return BadRequest(new ProblemDetails{Title="Username error!"});
         var result= await _userManager.CheckPasswordAsync(user,model.Password);
-        if(result) return Ok(new {token=await _tokenService.GenerateToken(user)});
+        if(result) return Ok(new UserDTO {
+            Name=user.Name!,
+            Token= await _tokenService.GenerateToken(user)});
         return Unauthorized();
     }
     [HttpPost("register")]
@@ -41,6 +44,18 @@ public class AccountController : ControllerBase
             await _userManager.AddToRoleAsync(user,"Customer");
             return StatusCode(201);}
         return BadRequest(result.Errors);
+    }
+    [Authorize]
+    [HttpGet("getUser")]
+    public async Task<ActionResult<UserDTO>> GetUser()
+    {
+        var user= await _userManager.FindByNameAsync(User.Identity?.Name!);
+        if(user==null) return BadRequest(new ProblemDetails{Title="User information error!"});
+        return new UserDTO
+        {
+            Name=user.Name!,
+            Token=await _tokenService.GenerateToken(user)
+        };
     }
 
 }
