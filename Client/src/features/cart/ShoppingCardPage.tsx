@@ -1,4 +1,4 @@
-import { Alert, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
+import { Alert, Box, Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import { Delete } from "@mui/icons-material";
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
@@ -8,6 +8,7 @@ import CartSummary from "./CartSummary";
 import { currencyTRY } from "../../utils/formatCurrency";
 import { addItemToCart, deleteItemToCart } from "./cartSlice";
 import { useAppDispatch, useAppSelector } from "../../store/store";
+import { Link } from "react-router";
 export default function ShoppingCardPage() {
 
     const {cart,status}= useAppSelector(state=>state.cart);
@@ -16,6 +17,7 @@ export default function ShoppingCardPage() {
     if(cart?.cartItems.length === 0) return <Alert severity="warning">Sepetinizde Ürün Bulunmamaktadır!</Alert>
 
     return (
+        <>
                 <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -69,5 +71,11 @@ export default function ShoppingCardPage() {
                 </TableBody>
             </Table>
             </TableContainer>
+            <Box display={"flex"} justifyContent={"flex-end"} sx={{mt:2}} >
+                <Button component={Link} to="/checkout" variant="contained">
+                Checkout
+                </Button>
+            </Box>
+            </>
     );
 }

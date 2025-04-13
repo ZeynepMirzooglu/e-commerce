@@ -3,12 +3,14 @@ import { Avatar, Box, Container, Paper, TextField, Typography } from "@mui/mater
 import { FieldValues, useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab";
 import { loginUser } from "./accountSlice";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAppDispatch } from "../../store/store";
+import { getCart } from "../cart/cartSlice";
 export default function LoginPage() {
 
     const dispatch =useAppDispatch();
     const navigate=useNavigate();
+    const location = useLocation();
     const {register,handleSubmit,formState:{errors,isSubmitting,isValid}}=useForm({
         defaultValues:{
             username:"",
@@ -17,7 +19,8 @@ export default function LoginPage() {
     });
     async function onSubmit(data:FieldValues){
         await dispatch(loginUser(data));
-        navigate("/catalog",{replace:true});
+        await dispatch(getCart())
+        navigate(location.state?.from || "/catalog");
     }
 
     return (
@@ -60,7 +63,7 @@ export default function LoginPage() {
                 fullWidth sx={{mb:2,mt:2}}>
                     Login   
                 </LoadingButton>
-                <LoadingButton variant="text" fullWidth sx={{mb:2,mt:2}} onClick={() => console.log("Register")}>
+                <LoadingButton variant="text" fullWidth sx={{mb:2,mt:2}} onClick={() => navigate("/register")}>
                     Register
                 </LoadingButton>
             </Box>

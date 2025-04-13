@@ -11,11 +11,15 @@ import ProductDetailsPage from "../features/catalog/ProductDetailsPage";
 import ErrorPage from "../features/ErrorPage";
 import LoginPage from "../features/account/LoginPage";
 import RegisterPage from "../features/account/RegisterPage";
+import CheckoutPage from "../features/checkout/CheckoutPage";
+import AuthGuard from "./AuthGurad";
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <App />,
         children: [
+            {element:<AuthGuard/>,children:[ 
+                {path:"checkout",element:<CheckoutPage/>},]},
             {path:"",element:<HomePage/>},
             {path:"about",element:<AboutPage/>},
             {path:"contact",element:<ContactPage/>},

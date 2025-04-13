@@ -1,9 +1,11 @@
+using API.Data;
 using API.DTO;
 using API.Entity;
 using API.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers;
 [ApiController]
@@ -12,50 +14,130 @@ public class AccountController : ControllerBase
 {
     private readonly UserManager<AppUser> _userManager;
     private readonly TokenService _tokenService;
-    public AccountController(UserManager<AppUser> userManager, TokenService tokenService)
+    private readonly DataContext _context;
+ 
+    public AccountController(UserManager<AppUser> userManager, TokenService tokenService,DataContext context)
     {
         _tokenService = tokenService;
         _userManager = userManager;
+        _context = context;
     }
  
-    [HttpPost("login")]
+ [HttpPost("login")]
     public async Task<ActionResult<UserDTO>> Login(LoginDTO model)
     {
-        var user= await _userManager.FindByNameAsync(model.UserName);
-        if(user==null) return BadRequest(new ProblemDetails{Title="Username error!"});
-        var result= await _userManager.CheckPasswordAsync(user,model.Password);
-        if(result) return Ok(new UserDTO {
-            Name=user.Name!,
-            Token= await _tokenService.GenerateToken(user)});
+        var user = await _userManager.FindByNameAsync(model.UserName);
+
+        if (user == null)
+        {
+            return BadRequest(new ProblemDetails { Title = "username hatalı" });
+        }
+
+        var result = await _userManager.CheckPasswordAsync(user, model.Password);
+
+        if (result)
+        {
+            var userCart = await GetOrCreate(model.UserName);
+            var cookieCart = await GetOrCreate(Request.Cookies["customerId"]!);
+
+            if (userCart != null)
+            {
+                foreach (var item in userCart.CartItems)
+                {
+                    cookieCart.AddItem(item.Product, item.Quantity);
+                }
+                _context.Carts.Remove(userCart);
+            }
+
+            cookieCart.CustomerId = model.UserName;
+            await _context.SaveChangesAsync();
+
+            return Ok(new UserDTO
+            {
+                Name = user.Name!,
+                Token = await _tokenService.GenerateToken(user)
+            });
+        }
+
         return Unauthorized();
     }
-    [HttpPost("register")]
-    public async Task<ActionResult<AppUser>> CreateUser(RegisterDTO model)
+
+    private async Task<Cart> GetOrCreate(string custId)
     {
-        if(!ModelState.IsValid) return BadRequest(ModelState);
-        var user= new AppUser
+        var cart = await _context.Carts
+                    .Include(i => i.CartItems)
+                    .ThenInclude(i => i.Product)
+                    .Where(i => i.CustomerId == custId)
+                    .FirstOrDefaultAsync();
+
+        if (cart == null)
         {
-            Name=model.Name,
-            UserName=model.UserName,
-            Email=model.Email,
+            var customerId = User.Identity?.Name;
+
+            if (string.IsNullOrEmpty(customerId))
+            {
+                customerId = Guid.NewGuid().ToString();
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddMonths(1),
+                    IsEssential = true
+                };
+
+                Response.Cookies.Append("customerId", customerId, cookieOptions);
+            }
+
+            cart = new Cart { CustomerId = customerId };
+
+            _context.Carts.Add(cart);
+            await _context.SaveChangesAsync();
+        }
+
+        return cart;
+    }
+
+    [HttpPost("register")]
+    public async Task<IActionResult> CreateUser(RegisterDTO model)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var user = new AppUser
+        {
+            Name = model.Name,
+            UserName = model.UserName,
+            Email = model.Email
         };
-        var result= await _userManager.CreateAsync(user,model.Password);
-        if(result.Succeeded){ 
-            await _userManager.AddToRoleAsync(user,"Customer");
-            return StatusCode(201);}
+
+        var result = await _userManager.CreateAsync(user, model.Password);
+
+        if (result.Succeeded)
+        {
+            await _userManager.AddToRoleAsync(user, "Customer");
+            return StatusCode(201);
+        }
+
         return BadRequest(result.Errors);
     }
+
     [Authorize]
-    [HttpGet("getUser")]
+    [HttpGet("getuser")]
     public async Task<ActionResult<UserDTO>> GetUser()
     {
-        var user= await _userManager.FindByNameAsync(User.Identity?.Name!);
-        if(user==null) return BadRequest(new ProblemDetails{Title="User information error!"});
+        var user = await _userManager.FindByNameAsync(User.Identity?.Name!);
+
+        if (user == null)
+        {
+            return BadRequest(new ProblemDetails { Title = "username ya da parola hatalı" });
+        }
+
         return new UserDTO
         {
-            Name=user.Name!,
-            Token=await _tokenService.GenerateToken(user)
+            Name = user.Name!,
+            Token = await _tokenService.GenerateToken(user)
         };
     }
+
 
 }
