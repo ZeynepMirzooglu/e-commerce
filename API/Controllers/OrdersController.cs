@@ -1,0 +1,177 @@
+
+using API.Data;
+using API.DTO;
+using API.Entity;
+using API.Extensions;
+using Iyzipay;
+using Iyzipay.Model;
+using Iyzipay.Request;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace API.Controllers
+{
+    [Authorize]
+    [ApiController]
+    [Route("api/[controller]")]
+    public class OrdersController : ControllerBase
+    {
+        private readonly DataContext _context;
+        private readonly IConfiguration _configuration;
+        public OrdersController(DataContext context, IConfiguration configuration)
+        {
+            _context = context;
+            _configuration = configuration;
+
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<OrderDTO>>> GetOrders()
+        {
+            return await _context.Orders
+                        .Include(i => i.OrderItems)
+                        .OrderToDTO()
+                        .Where(i => i.CustomerId == User.Identity!.Name)
+                        .ToListAsync();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<OrderDTO?>> GetOrder(int id)
+        {
+            return await _context.Orders
+                        .Include(i => i.OrderItems)
+                        .OrderToDTO()
+                        .Where(i => i.CustomerId == User.Identity!.Name && i.Id == id)
+                        .FirstOrDefaultAsync();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Order>> CreateOrder(CreateOrderDTO orderDTO)
+        {
+            var cart = await _context.Carts
+                        .Include(i => i.CartItems)
+                        .ThenInclude(i => i.Product)
+                        .Where(i => i.CustomerId == User.Identity!.Name)
+                        .FirstOrDefaultAsync();
+
+            if (cart == null) return BadRequest(new ProblemDetails { Title = "Problem getting cart" });
+
+            var items = new List<DTO.OrderItem>();
+
+            foreach (var item in cart.CartItems)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+
+                var orderItem = new DTO.OrderItem
+                {
+                    ProductId = product!.Id,
+                    ProductName = product.Name!,
+                    ProductImage = product.ImageUrl!,
+                    Price = (decimal)product.Price!,
+                    Quantity = item.Quantity
+                };
+
+                items.Add(orderItem);
+                product.Stock -= item.Quantity;
+            }
+
+            var subTotal = items.Sum(i => i.Price * i.Quantity);
+            var deliveryFee = 0;
+
+            var order = new Order
+            {
+                OrderItems = items,
+                CustomerId = User.Identity!.Name!,
+                FirstName = orderDTO.FirstName,
+                LastName = orderDTO.LastName,
+                Phone = orderDTO.Phone,
+                City = orderDTO.City,
+                Address = orderDTO.Address,
+                SubTotal = subTotal,
+                DeliveryFee = deliveryFee
+            };
+            //Payment
+             await ProcessPayment(orderDTO,cart);
+            _context.Orders.Add(order);
+            _context.Carts.Remove(cart);
+
+            var result = await _context.SaveChangesAsync() > 0;
+
+            if (result)
+                return CreatedAtAction(nameof(GetOrder), new { id = order.Id }, order.Id);
+
+            return BadRequest(new ProblemDetails { Title = "Problem getting order" });
+        }
+    private async Task<Payment> ProcessPayment(CreateOrderDTO model,Cart cart)
+    {
+        Options options = new Options();
+        options.ApiKey = _configuration["PaymentAPI:APIKey"];
+        options.SecretKey = _configuration["PaymentAPI:SecretKey"];
+        options.BaseUrl = "https://sandbox-api.iyzipay.com";
+                
+        CreatePaymentRequest request = new CreatePaymentRequest();
+        request.Locale = Locale.TR.ToString();
+        request.ConversationId = Guid.NewGuid().ToString();
+        request.Price = cart.CalculateTotal().ToString();
+        request.PaidPrice = cart.CalculateTotal().ToString();
+        request.Currency = Currency.TRY.ToString();
+        request.Installment = 1;
+        request.BasketId =  Guid.NewGuid().ToString();
+        request.PaymentChannel = PaymentChannel.WEB.ToString();
+        request.PaymentGroup = PaymentGroup.PRODUCT.ToString();
+
+        PaymentCard paymentCard = new PaymentCard();
+        paymentCard.CardHolderName = model.CardName;
+        paymentCard.CardNumber = model.CardNumber;
+        paymentCard.ExpireMonth = model.CardExpireMonth;
+        paymentCard.ExpireYear = model.CardExpireYear;
+        paymentCard.Cvc = model.CardCvc;
+        paymentCard.RegisterCard = 0;
+        request.PaymentCard = paymentCard;
+
+        Buyer buyer = new Buyer();
+        buyer.Id = "BY789";
+        buyer.Name = model.FirstName;
+        buyer.Surname = model.LastName;
+        buyer.GsmNumber = model.Phone;
+        buyer.Email = "email@email.com";
+        buyer.IdentityNumber = "74300864791";
+        buyer.LastLoginDate = "2015-10-05 12:43:35";
+        buyer.RegistrationDate = "2013-04-21 15:12:09";
+        buyer.RegistrationAddress = model.Address;
+        buyer.Ip = "85.34.78.112";
+        buyer.City = model.City;
+        buyer.Country = "Turkiye";
+        buyer.ZipCode = "34732";
+        request.Buyer = buyer;
+
+        Address shippingAddress = new Address();
+        shippingAddress.ContactName = model.FirstName + " " + model.LastName;
+        shippingAddress.City = model.City;
+        shippingAddress.Country = "Türkiye";
+        shippingAddress.Description = model.Address;
+        shippingAddress.ZipCode = "34742";
+        request.ShippingAddress = shippingAddress;
+        request.BillingAddress = shippingAddress;
+
+
+        List<BasketItem> basketItems = new List<BasketItem>();
+        foreach (var item in cart.CartItems)
+        {
+            BasketItem basketItem = new BasketItem();
+            basketItem.Id = item.ProductId.ToString();
+            basketItem.Name = item.Product.Name;
+            basketItem.Category1 = "Telefon";
+            basketItem.ItemType = BasketItemType.PHYSICAL.ToString();
+            basketItem.Price = ((double)item.Product.Price! * item.Quantity).ToString();
+            basketItems.Add(basketItem );
+
+        }
+        request.BasketItems = basketItems;
+       
+
+        return await Payment.Create(request, options);
+}
+}
+}

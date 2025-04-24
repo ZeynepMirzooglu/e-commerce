@@ -85,12 +85,17 @@ const Account={
     getUser:()=>queries.get("account/getUser"),
     logout:()=>queries.post("account/logout",{})
 }
-
+const Order = {
+    getOrders: () => queries.get("orders"),
+    getOrder: (id:number) => queries.get(`orders/${id}`),
+    createOrder: (formData: any) => queries.post("orders", formData)
+}
 const requests ={
     Catalog,
     Errors,
     Cart,
     Account,
+    Order
 }
 
 export default requests;

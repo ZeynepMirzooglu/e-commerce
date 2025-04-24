@@ -15,7 +15,7 @@ namespace API.DTO
         public OrderStatus OrderStatus { get; set; } = OrderStatus.Pending;
         public List<OrderItemDTO> OrderItems { get; set; } = new();
         public decimal SubTotal { get; set; }
-        public decimal DeliveryFree { get; set; }
+        public decimal DeliveryFee { get; set; }
 
     }
 

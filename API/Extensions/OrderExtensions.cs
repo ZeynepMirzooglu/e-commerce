@@ -20,7 +20,7 @@ namespace API.Extensions;
                 City=i.City,
                 CustomerId=i.CustomerId,
                 OrderStatus=i.OrderStatus,
-                DeliveryFree=i.DeliveryFree,
+                DeliveryFee=i.DeliveryFee,
                 SubTotal=i.SubTotal,
                 OrderItems=i.OrderItems.Select(item=> new OrderItemDTO{
                     Id=item.Id,

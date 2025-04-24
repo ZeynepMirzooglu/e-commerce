@@ -303,3 +303,5 @@ D:\ecommerce\API\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.
 D:\ecommerce\API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
 D:\ecommerce\API\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 D:\ecommerce\API\bin\Debug\net9.0\Scalar.AspNetCore.dll
+D:\ecommerce\API\bin\Debug\net9.0\Iyzipay.dll
+D:\ecommerce\API\bin\Debug\net9.0\Newtonsoft.Json.dll

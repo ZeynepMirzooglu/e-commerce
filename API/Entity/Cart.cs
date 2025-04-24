@@ -28,6 +28,10 @@ public class Cart
         }
 
     }
+    public double CalculateTotal()
+    {
+        return (double)CartItems.Sum(i => i.Product.Price * i.Quantity);
+    }
     public void ClearCart()
     {
         CartItems.Clear();
