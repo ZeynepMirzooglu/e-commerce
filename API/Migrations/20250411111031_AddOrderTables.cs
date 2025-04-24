@@ -26,7 +26,7 @@ namespace API.Migrations
                     CustomerId = table.Column<string>(type: "TEXT", nullable: false),
                     OrderStatus = table.Column<int>(type: "INTEGER", nullable: false),
                     SubTotal = table.Column<decimal>(type: "TEXT", nullable: false),
-                    DeliveryFree = table.Column<decimal>(type: "TEXT", nullable: false)
+                    DeliveryFee = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

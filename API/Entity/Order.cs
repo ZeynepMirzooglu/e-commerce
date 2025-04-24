@@ -1,7 +1,6 @@
-using API.Entity;
 using API.Utilities;
 
-namespace API.DTO
+namespace API.Entity
 {
     public class Order
     {
@@ -17,8 +16,9 @@ namespace API.DTO
         public List<OrderItem> OrderItems { get; set; } = new();
         public decimal SubTotal { get; set; }
         public decimal DeliveryFee { get; set; }
-           public string? ConversationId { get; set; }
-        public string? BasketId { get; set; }
+        public string ConversationId { get; set; } = null!;
+        public string BasketId { get; set; } = null!;
+
         public decimal GetTotal(){
             return SubTotal + DeliveryFee;
         }
@@ -38,8 +38,5 @@ namespace API.DTO
         public string ProductImage { get; set; } = null!;
 
      
-     
-
-
     }
 }

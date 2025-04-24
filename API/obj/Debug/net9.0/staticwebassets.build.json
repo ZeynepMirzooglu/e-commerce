@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "FsMRiCeKkbZWB4NYV6Wu40Qy88jvbdCYfnD95q3q/E4=",
+  "Hash": "FAFdVOQ3/yxT7HBdCDHYY3mVW2cdrgbdtq9UtenSCBA=",
   "Source": "API",
   "BasePath": "_content/API",
   "Mode": "Default",
@@ -10,17 +10,17 @@
     {
       "Name": "API\\wwwroot",
       "Source": "API",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "Pattern": "**"
     }
   ],
   "Assets": [
     {
-      "Identity": "D:\\ecommerce\\API\\wwwroot\\images\\s21.jpg",
+      "Identity": "D:\\e-commerce\\API\\wwwroot\\images\\s21.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "images/s21#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -38,10 +38,10 @@
       "OriginalItemSpec": "wwwroot\\images\\s21.jpg"
     },
     {
-      "Identity": "D:\\ecommerce\\API\\wwwroot\\images\\s22.jpg",
+      "Identity": "D:\\e-commerce\\API\\wwwroot\\images\\s22.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "images/s22#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -59,10 +59,10 @@
       "OriginalItemSpec": "wwwroot\\images\\s22.jpg"
     },
     {
-      "Identity": "D:\\ecommerce\\API\\wwwroot\\images\\s23.jpg",
+      "Identity": "D:\\e-commerce\\API\\wwwroot\\images\\s23.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "images/s23#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -80,10 +80,10 @@
       "OriginalItemSpec": "wwwroot\\images\\s23.jpg"
     },
     {
-      "Identity": "D:\\ecommerce\\API\\wwwroot\\images\\s24.jpg",
+      "Identity": "D:\\e-commerce\\API\\wwwroot\\images\\s24.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "images/s24#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -101,10 +101,10 @@
       "OriginalItemSpec": "wwwroot\\images\\s24.jpg"
     },
     {
-      "Identity": "D:\\ecommerce\\API\\wwwroot\\images\\s25.jpg",
+      "Identity": "D:\\e-commerce\\API\\wwwroot\\images\\s25.jpg",
       "SourceId": "API",
       "SourceType": "Discovered",
-      "ContentRoot": "D:\\ecommerce\\API\\wwwroot\\",
+      "ContentRoot": "D:\\e-commerce\\API\\wwwroot\\",
       "BasePath": "_content/API",
       "RelativePath": "images/s25#[.{fingerprint}]?.jpg",
       "AssetKind": "All",
@@ -125,7 +125,7 @@
   "Endpoints": [
     {
       "Route": "images/s21.0gc20840ys.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s21.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s21.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -146,7 +146,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:07:49 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -170,7 +170,7 @@
     },
     {
       "Route": "images/s21.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s21.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s21.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -191,7 +191,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:07:49 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -207,7 +207,7 @@
     },
     {
       "Route": "images/s22.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s22.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s22.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -228,7 +228,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:08:22 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -244,7 +244,7 @@
     },
     {
       "Route": "images/s22.wrju70y7ou.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s22.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s22.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -265,7 +265,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:08:22 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -289,7 +289,7 @@
     },
     {
       "Route": "images/s23.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s23.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s23.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -310,7 +310,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:07:21 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -326,7 +326,7 @@
     },
     {
       "Route": "images/s23.xv1jyv7h8i.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s23.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s23.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -347,7 +347,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:07:21 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -371,7 +371,7 @@
     },
     {
       "Route": "images/s24.85j74qbtio.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s24.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s24.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -392,7 +392,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:06:59 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -416,7 +416,7 @@
     },
     {
       "Route": "images/s24.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s24.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s24.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -437,7 +437,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:06:59 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -453,7 +453,7 @@
     },
     {
       "Route": "images/s25.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s25.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s25.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -474,7 +474,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:06:04 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
@@ -490,7 +490,7 @@
     },
     {
       "Route": "images/s25.x86w1nwfj4.jpg",
-      "AssetFile": "D:\\ecommerce\\API\\wwwroot\\images\\s25.jpg",
+      "AssetFile": "D:\\e-commerce\\API\\wwwroot\\images\\s25.jpg",
       "Selectors": [],
       "ResponseHeaders": [
         {
@@ -511,7 +511,7 @@
         },
         {
           "Name": "Last-Modified",
-          "Value": "Tue, 25 Mar 2025 00:06:04 GMT"
+          "Value": "Thu, 24 Apr 2025 12:35:40 GMT"
         },
         {
           "Name": "Cache-Control",
